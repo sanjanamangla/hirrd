@@ -18,12 +18,12 @@ import useFetch from "@/hooks/use-fetch";
 import { BarLoader } from "react-spinners";
 
 const ApplicationCard = ({ application, isCandidate = false }) => {
+  
   const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = application?.resume;
-    link.target = "_blank";
-    link.click();
-  };
+  if (!application?.resumeLink) return;
+  window.open(application.resumeLink, "_blank");
+};
+
 
   const { loading: loadingHiringStatus, fn: fnHiringStatus } = useFetch(
     updateApplicationStatus,
@@ -82,7 +82,7 @@ const ApplicationCard = ({ application, isCandidate = false }) => {
               <SelectValue placeholder="Application Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="applied">Applied</SelectItem>
+              <SelectItem value="applying">Applied</SelectItem>
               <SelectItem value="interviewing">Interviewing</SelectItem>
               <SelectItem value="hired">Hired</SelectItem>
               <SelectItem value="rejected">Rejected</SelectItem>

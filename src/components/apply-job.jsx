@@ -28,15 +28,9 @@ const schema = z.object({
   education: z.enum(["Intermediate", "Graduate", "Post Graduate"], {
     message: "Education is required",
   }),
-  resume: z
-    .any()
-    .refine(
-      (file) =>
-        file[0] &&
-        (file[0].type === "application/pdf" ||
-          file[0].type === "application/msword"),
-      { message: "Only PDF or Word documents are allowed" }
-    ),
+  resumeLink: z
+    .string()
+    .url({ message: "Valid URL required (Google Drive, Dropbox, etc.)" }),
 });
 
 export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
@@ -62,8 +56,8 @@ export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
       job_id: job.id,
       candidate_id: user.id,
       name: user.fullName,
-      status: "applied",
-      resume: data.resume[0],
+      status: "applying",
+      resume: data.resumeLink,
     }).then(() => {
       fetchJob();
       reset();
@@ -137,14 +131,15 @@ export function ApplyJobDrawer({ user, job, fetchJob, applied = false }) {
             <p className="text-red-500">{errors.education.message}</p>
           )}
           <Input
-            type="file"
-            accept=".pdf, .doc, .docx"
-            className="flex-1 file:text-gray-500"
-            {...register("resume")}
+            type="url"
+            placeholder="Link to Resume (Google Drive/Dropbox)"
+            className="flex-1"
+            {...register("resumeLink")}
           />
-          {errors.resume && (
-            <p className="text-red-500">{errors.resume.message}</p>
+          {errors.resumeLink && (
+            <p className="text-red-500">{errors.resumeLink.message}</p>
           )}
+
           {errorApply?.message && (
             <p className="text-red-500">{errorApply?.message}</p>
           )}

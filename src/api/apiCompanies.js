@@ -1,4 +1,3 @@
-
 import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
 // Fetch Companies

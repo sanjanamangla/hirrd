@@ -64,11 +64,13 @@ const Header = () => {
                   labelIcon={<BriefcaseBusiness size={15} />}
                   href="/my-jobs"
                 />
-                <UserButton.Link
-                  label="Saved Jobs"
-                  labelIcon={<Heart size={15} />}
-                  href="/saved-jobs"
-                />
+                {user?.unsafeMetadata?.role !== "recruiter" && (
+                  <UserButton.Link
+                    label="Saved Jobs"
+                    labelIcon={<Heart size={15} />}
+                    href="/saved-jobs"
+                  />
+                )}
               </UserButton.MenuItems>
             </UserButton>
           </SignedIn>
@@ -80,9 +82,7 @@ const Header = () => {
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
           onClick={handleClick}
         >
-          <SignUp
-          signUpForceRedirectUrl="/onboarding"
-          />
+          <SignUp signUpForceRedirectUrl="/onboarding" />
         </div>
       )}
     </>

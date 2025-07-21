@@ -9,6 +9,7 @@ const supabaseClient = async(supabaseAccessToken)=>{
         global:{
             headers:{
                 Authorization:`Bearer ${supabaseAccessToken}`,
+                apiKey: supabaseKey,
             }
         }
     });
